@@ -30,6 +30,8 @@ public class BlogJdbcApplication {
 			postRepository.saveAll(List.of(post1,post2));
 
 			postRepository.findAll().forEach(System.out::println);
+			System.out.println("-------------------");
+			postRepository.findAllByAuthorId(dan.id()).forEach(System.out::println);
 		};
 	}
 
