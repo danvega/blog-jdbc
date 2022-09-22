@@ -8,7 +8,7 @@ public record Post(
         @Id Integer id,
         String title,
         String content,
-        Author author,
+        Integer authorId,
         LocalDateTime publishedOn,
         LocalDateTime updatedOn
 ) {

@@ -2,19 +2,20 @@
 
 -- author
 create table Author(
-    post int primary key, -- The table of the referenced entity is expected to have an additional column named the same as the table of the referencing entity.
+    id int auto_increment primary key,
     first_name varchar(100) not null,
     last_name varchar(100) not null,
     email varchar(255) not null
 );
 -- post
 create table Post (
-    id int auto_increment,
+    id int auto_increment primary key ,
     title varchar(255) not null,
     content text not null,
     published_on timestamp not null,
     updated_on timestamp not null,
-    primary key (id)
+    author_id int not null,
+    foreign key (author_id) references Author(id)
 );
 
 
