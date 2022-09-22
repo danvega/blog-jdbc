@@ -21,9 +21,11 @@ public class BlogJdbcApplication {
 	@Bean
 	CommandLineRunner run(PostRepository repository) {
 		return args -> {
-			Author author = new Author(null, "Dan", "Vega", "danvega@gmail.com");
-			Post post1 = new Post(null, "My First Post", "This is my first post", author, LocalDateTime.now(), LocalDateTime.now());
-			Post post2 = new Post(null, "My Second Post", "This is my second post", author, LocalDateTime.now(), LocalDateTime.now());
+			Author dan = new Author(null, "Dan", "Vega", "danvega@gmail.com");
+			Author greg = new Author(null, "Greg", "Turnquist", "gturnquist@gmail.com");
+
+			Post post1 = new Post(null, "Dan's First Post", "This is Dan's First Post", dan, LocalDateTime.now(), LocalDateTime.now());
+			Post post2 = new Post(null, "Greg's First Post", "This is Greg's First Post", greg, LocalDateTime.now(), LocalDateTime.now());
 			repository.saveAll(List.of(post1,post2));
 
 			repository.findAll().forEach(System.out::println);
