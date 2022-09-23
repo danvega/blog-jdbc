@@ -4,6 +4,14 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
-public record Comment(@Id Integer id, String content, Post post, Author author, LocalDateTime publishedOn, LocalDateTime updatedOn) {
+public record Comment(
+        @Id
+        Integer id,
+        String name,
+        String content,
+        Integer postId,
+        LocalDateTime publishedOn,
+        LocalDateTime updatedOn
+) {
 
 }

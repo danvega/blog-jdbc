@@ -6,6 +6,7 @@ public record Author(
         @Id Integer id,
         String firstName,
         String lastName,
-        String email
+        String email,
+        String username
 ) {
 }
