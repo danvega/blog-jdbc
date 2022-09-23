@@ -9,13 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PostRepositoryTest {
 
     @Autowired
-    private PostRepository postRepository;
+    PostRepository posts;
 
     @Autowired
     AuthorRepository authorRepository;
@@ -28,14 +30,40 @@ class PostRepositoryTest {
     }
 
     @Test
-    void testPostWithComments() {
-        Post post = new Post( "Dan's First Post", "This is Dan's First Post",author);
-        post.addComment(new Comment( "Dan", "This is a comment", LocalDateTime.now(), LocalDateTime.now()));
-        post.addComment(new Comment( "John", "This is another comment", LocalDateTime.now(), LocalDateTime.now()));
-        postRepository.save(post);
+    void shouldSaveValidPost() {
+        Post post = new Post( "TEST", "...",author);
+        assertNull(post.getId());
+        Post reloaded = posts.save(post);
+        assertNotNull(reloaded.getId());
+    }
 
-        Post first_post = postRepository.findById(post.getId()).get();
-        first_post.showComments();
+    @Test
+    void shouldSaveValidPostWithoutAuthor() {
+        Post post = new Post( "TEST", "...",null);
+        assertNull(post.getId());
+        Post reloaded = posts.save(post);
+        assertNotNull(reloaded.getId());
+        assertNull(reloaded.getAuthor());
+    }
+
+    @Test
+    void testPostWithComments() {
+        Post post = new Post( "TEST", "...",null);
+        post.addComments(List.of(new Comment("Dan","test comment"),new Comment("Dan","test comment 2")));
+        posts.save(post);
+
+        Post p = posts.findById(post.getId()).get();
+        assertNotNull(p.getId());
+        assertEquals(2,p.getComments().size());
+        assertEquals("Dan",p.getComments().iterator().next().getName());
+    }
+
+    @Test
+    void testPostWithNoCommentsReturns0AndNotNull() {
+        Post post = new Post( "TEST", "...",null);
+        posts.save(post);
+        Post p = posts.findById(post.getId()).get();
+        assertEquals(0,p.getComments().size());
     }
 
 }

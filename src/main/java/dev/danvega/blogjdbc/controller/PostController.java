@@ -12,22 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/posts")
 public class PostController {
 
-    private final PostRepository postRepository;
-    private final AuthorRepository authorRepository;
+    private final PostRepository posts;
+    private final AuthorRepository authors;
 
     public PostController(PostRepository postRepository, AuthorRepository authorRepository) {
-        this.postRepository = postRepository;
-        this.authorRepository = authorRepository;
+        this.posts = postRepository;
+        this.authors = authorRepository;
     }
 
     @GetMapping
     public Iterable<Post> findAll() {
-        return postRepository.findAll();
+        return posts.findAll();
     }
 
     @GetMapping("/{id}")
     public Post findById(@PathVariable Integer id) {
-        return postRepository.findById(id).get();
+        return posts.findById(id).get();
     }
+
 
 }

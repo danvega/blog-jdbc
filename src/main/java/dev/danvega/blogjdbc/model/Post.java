@@ -87,10 +87,6 @@ public final class Post {
         comment.post = this;
     }
 
-    public void showComments() {
-        comments.forEach(Comment::print);
-    }
-
     public Set<Comment> getComments() {
         return comments;
     }

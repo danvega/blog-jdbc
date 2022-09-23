@@ -17,7 +17,7 @@ create table Post (
     content text not null,
     published_on timestamp not null,
     updated_on timestamp not null,
-    author int not null,
+    author int,
     foreign key (author) references Author(id)
 );
 
