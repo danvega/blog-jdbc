@@ -1,72 +1,106 @@
 package dev.danvega.blogjdbc.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
+import org.springframework.data.annotation.PersistenceCreator;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class Post {
     @Id
     private Integer id;
     private String title;
     private String content;
-    private Integer authorId;
     private LocalDateTime publishedOn;
     private LocalDateTime updatedOn;
-    @Transient
-    private Author author = null;
-    @Transient
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments = new HashSet<>();
+    private AggregateReference<Author,Integer> author;
 
-    public Post(Integer id, String title, String content, Integer authorId, LocalDateTime publishedOn, LocalDateTime updatedOn) {
-        this.id = id;
+    public Post(String title,String content, AggregateReference<Author,Integer> author) {
         this.title = title;
         this.content = content;
-        this.authorId = authorId;
+        this.author = author;
+        this.publishedOn = LocalDateTime.now();
+        this.updatedOn = LocalDateTime.now();
+    }
+
+    @PersistenceCreator
+    public Post(String title, String content, LocalDateTime publishedOn, LocalDateTime updatedOn, Collection<Comment> comments, AggregateReference<Author,Integer> author) {
+        this.title = title;
+        this.content = content;
         this.publishedOn = publishedOn;
         this.updatedOn = updatedOn;
+        comments.forEach(this::addComment);
+        this.author = author;
     }
 
     public Integer getId() {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
         return content;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getPublishedOn() {
         return publishedOn;
     }
 
+    public void setPublishedOn(LocalDateTime publishedOn) {
+        this.publishedOn = publishedOn;
+    }
+
     public LocalDateTime getUpdatedOn() {
         return updatedOn;
     }
 
-    public Author getAuthor() {
-        return author;
+    public void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void addComments(List<Comment> comments) {
+        comments.forEach(this::addComment);
     }
 
-    public List<Comment> getComments() {
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.post = this;
+    }
+
+    public void showComments() {
+        comments.forEach(Comment::print);
+    }
+
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public AggregateReference<Author, Integer> getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(AggregateReference<Author, Integer> author) {
+        this.author = author;
     }
 
     @Override
@@ -75,7 +109,6 @@ public final class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", authorId=" + authorId +
                 ", publishedOn=" + publishedOn +
                 ", updatedOn=" + updatedOn +
                 '}';

@@ -8,24 +8,25 @@ create table Author(
     email varchar(255) not null,
     username varchar(100) not null
 );
+
 -- post
 create table Post (
     id int auto_increment primary key ,
+    version int,
     title varchar(255) not null,
     content text not null,
     published_on timestamp not null,
     updated_on timestamp not null,
-    author_id int not null,
-    foreign key (author_id) references Author(id)
+    author int not null,
+    foreign key (author) references Author(id)
 );
 
 -- comment
 create table Comment(
-    id int auto_increment primary key ,
+    post int not null,
     name varchar(100) not null,
     content text not null,
-    post_id int not null,
     published_on timestamp not null,
     updated_on timestamp not null,
-    foreign key (post_id) references Post(id)
+    foreign key (post) references Post(id)
 );
