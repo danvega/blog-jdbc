@@ -11,4 +11,6 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
     @Query("SELECT * FROM POST WHERE author = :id")
     List<Post> findByAuthor(Integer id);
 
+    //List<Post> findByAuthorLastNameIgnoreCase(String lastName);
+
 }

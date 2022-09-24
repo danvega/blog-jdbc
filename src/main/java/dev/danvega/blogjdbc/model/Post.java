@@ -1,5 +1,6 @@
 package dev.danvega.blogjdbc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class Post {
-    @Id
+    @Id @JsonIgnore
     private Integer id;
     private String title;
     private String content;

@@ -4,6 +4,7 @@ import dev.danvega.blogjdbc.model.Author;
 import dev.danvega.blogjdbc.model.Comment;
 import dev.danvega.blogjdbc.model.Post;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +48,7 @@ class PostRepositoryTest {
     }
 
     @Test
-    void testPostWithComments() {
+    void shouldPostWithComments() {
         Post post = new Post( "TEST", "...",null);
         post.addComments(List.of(new Comment("Dan","test comment"),new Comment("Dan","test comment 2")));
         posts.save(post);
@@ -59,11 +60,21 @@ class PostRepositoryTest {
     }
 
     @Test
-    void testPostWithNoCommentsReturns0AndNotNull() {
+    void shouldPostWithNoCommentsReturns0AndNotNull() {
         Post post = new Post( "TEST", "...",null);
         posts.save(post);
         Post p = posts.findById(post.getId()).get();
         assertEquals(0,p.getComments().size());
     }
+
+    // No property 'lastName' found for type 'AggregateReference' Traversed path: Post.author.
+//    void shouldReturnPostsWithAuthorLastName() {
+//        Post p1 = new Post( "TEST", "...",author);
+//        Post p2 = new Post("TEST2", "...",null);
+//        posts.saveAll(List.of(p1,p2));
+//
+//        List<Post> p = posts.findByAuthorLastNameIgnoreCase("vega");
+//        assertEquals(1,p.size());
+//    }
 
 }
