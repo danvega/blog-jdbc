@@ -23,7 +23,6 @@ public class PostController {
         return posts.findAll();
     }
 
-    // using the DomainClassConverter
     @GetMapping("/{id}")
     public Post findById(@PathVariable("id") Post post) {
         return post;
@@ -33,23 +32,5 @@ public class PostController {
     public PostDetails getPostDetails(@PathVariable("id") Post post) {
         return new PostDetails(post,authors.findById(post.getAuthor().getId()).get());
     }
-
-    @PostMapping
-    public Post create(@RequestBody Post post) {
-        return posts.save(post);
-    }
-
-    @PutMapping("/{id}")
-    public Post update(@PathVariable("id") Post post, @RequestBody Post updatedPost) {
-        post.setTitle(updatedPost.getTitle());
-        post.setContent(updatedPost.getContent());
-        return posts.save(post);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Post post) {
-        posts.delete(post);
-    }
-
 
 }
