@@ -18,11 +18,6 @@ class AuthorRepositoryTest {
 
     Author author;
 
-    @BeforeEach
-    void setUp() {
-        author = authors.save(new Author(null, "Dan", "Vega", "danvega@gmail.com", "dvega"));
-    }
-
     @Test
     void shouldReturnAllAuthors() {
         long count = StreamSupport.stream(authors.findAll().spliterator(), false).count();
