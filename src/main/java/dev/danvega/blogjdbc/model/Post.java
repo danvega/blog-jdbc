@@ -26,7 +26,6 @@ public final class Post {
         this.content = content;
         this.author = author;
         this.publishedOn = LocalDateTime.now();
-        this.updatedOn = LocalDateTime.now();
     }
 
     @PersistenceCreator

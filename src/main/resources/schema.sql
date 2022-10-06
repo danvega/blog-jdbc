@@ -16,7 +16,7 @@ create table Post (
     title varchar(255) not null,
     content text not null,
     published_on timestamp not null,
-    updated_on timestamp not null,
+    updated_on timestamp,
     author int,
     foreign key (author) references Author(id)
 );
