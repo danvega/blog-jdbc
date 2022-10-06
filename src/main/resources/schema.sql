@@ -27,6 +27,6 @@ create table Comment(
     name varchar(100) not null,
     content text not null,
     published_on timestamp not null,
-    updated_on timestamp not null,
+    updated_on timestamp,
     foreign key (post) references Post(id)
 );

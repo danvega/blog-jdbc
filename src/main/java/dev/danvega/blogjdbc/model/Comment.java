@@ -1,6 +1,5 @@
 package dev.danvega.blogjdbc.model;
 
-import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
@@ -15,15 +14,9 @@ public final class Comment {
         Post post;
 
         public Comment(String name, String content) {
-                this(name, content, LocalDateTime.now(), LocalDateTime.now());
-        }
-
-        @PersistenceCreator
-        public Comment(String name, String content, LocalDateTime publishedOn, LocalDateTime updatedOn) {
                 this.name = name;
                 this.content = content;
-                this.publishedOn = publishedOn;
-                this.updatedOn = updatedOn;
+                this.publishedOn = LocalDateTime.now();
         }
 
         public String getName() {
@@ -56,10 +49,6 @@ public final class Comment {
 
         public void setUpdatedOn(LocalDateTime updatedOn) {
                 this.updatedOn = updatedOn;
-        }
-
-        public void print() {
-                System.out.println("I am comment by " + getName() + " on post " + post.getTitle());
         }
 
         @Override

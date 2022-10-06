@@ -2,11 +2,9 @@ package dev.danvega.blogjdbc.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +16,7 @@ public final class Post {
     private String content;
     private LocalDateTime publishedOn;
     private LocalDateTime updatedOn;
-    private Set<Comment> comments = new HashSet<>();
+    private final Set<Comment> comments = new HashSet<>();
     private AggregateReference<Author,Integer> author;
 
     public Post(String title,String content, AggregateReference<Author,Integer> author) {
@@ -26,16 +24,6 @@ public final class Post {
         this.content = content;
         this.author = author;
         this.publishedOn = LocalDateTime.now();
-    }
-
-    @PersistenceCreator
-    public Post(String title, String content, LocalDateTime publishedOn, LocalDateTime updatedOn, Collection<Comment> comments, AggregateReference<Author,Integer> author) {
-        this.title = title;
-        this.content = content;
-        this.publishedOn = publishedOn;
-        this.updatedOn = updatedOn;
-        comments.forEach(this::addComment);
-        this.author = author;
     }
 
     public Integer getId() {
